@@ -7,6 +7,15 @@ return {
         { "<c-space>", desc = "Increment Selection", mode = { "x", "n" } },
       },
     },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter",

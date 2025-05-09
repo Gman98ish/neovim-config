@@ -7,7 +7,7 @@ require 'nvim-treesitter.configs'.setup {
 }
 vim.keymap.set("i", "jf", "<esc>")
 vim.keymap.set("n", "<Leader> ", "<cmd>noh<CR>")
-vim.keymap.set("n", ";", ":")
+-- vim.keymap.set("n", ";", ":")
 vim.keymap.set("n", "-", require("oil").open)
 
 vim.keymap.set("n", "<Leader>fp", function ()
@@ -84,9 +84,9 @@ vim.keymap.set({ "n", "x", "o" }, "<space>", ts_repeat_move.repeat_last_move)
 vim.keymap.set({ "n", "x", "o" }, "<C-Space>", ts_repeat_move.repeat_last_move_opposite)
 
 vim.keymap.set({"n"}, "grd", vim.lsp.buf.definition)
-vim.keymap.set({"n"}, "<leader>f", vim.lsp.buf.format)
+vim.keymap.set({"n"}, "<leader>F", vim.lsp.buf.format)
 
--- vim.keymap.set("n", "<leader>a", require("lspimport").import, { noremap = true })
+vim.keymap.set({ "n" }, "<leader>of", ":e ~/orgfiles/<cr>")
 
 vim.lsp.enable('luals')
 vim.lsp.enable('gopls')
