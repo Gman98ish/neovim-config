@@ -24,6 +24,11 @@ return {
     "saghen/blink.cmp",
     opts = {
       fuzzy = { implementation = "lua"},
+      enabled = function() return not vim.tbl_contains({ "lua", "markdown" }, vim.bo.filetype) end,
+      keymap = {
+        preset = 'default',
+        ['<tab>'] = { function(cmp) cmp.accept() end },
+      },
       sources = {
         -- add lazydev to your completion providers
         default = { "lazydev", "lsp", "path", "snippets", "buffer" },

@@ -13,5 +13,6 @@ return {
             overrides = {}, -- A dictionary of group names, can be a function returning a dictionary or a table.
             palette_overrides = {}
         }
-    }
+    },
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
 }
