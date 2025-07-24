@@ -14,6 +14,7 @@ return {
                 "gopls",
                 "phpactor",
                 "pylsp",
+                "emmet_language_server",
             }
         }
     },

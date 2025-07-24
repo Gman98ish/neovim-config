@@ -94,6 +94,7 @@ return {
                     keymaps = {
                         -- You can use the capture groups defined in textobjects.scm
                         ["af"] = "@function.outer",
+                        ["aa"] = "@parameter.inner",
                         ["if"] = "@function.inner",
                         ["ac"] = "@class.outer",
                         -- You can also use captures from other query groups like `locals.scm`
@@ -113,6 +114,9 @@ return {
                         ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
                         ["]s"] = { query = "@local.scope", query_group = "locals", desc = "Next scope" },
                     },
+                    goto_previous_start = {
+                        ["[m"] = "@function.outer",
+                    }
                 }
             }
         }

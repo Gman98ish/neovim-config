@@ -1,18 +1,18 @@
 require("config.lazy")
 require("oil").setup()
 require 'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true, -- enable syntax highlighting
-    }
+  highlight = {
+    enable = true, -- enable syntax highlighting
+  }
 }
 vim.keymap.set("i", "jf", "<esc>")
 vim.keymap.set("n", "<Leader> ", "<cmd>noh<CR>")
 -- vim.keymap.set("n", ";", ":") vim.keymap.set("n", "-", require("oil").open)
 
 vim.keymap.set("n", "<Leader>fp", function()
-    require('telescope.builtin').find_files {
-        find_command = { "rg", "--files", "--no-require-git", "-g", '!*migration*', '-g', '!*test*', '-g', '!*mock*' }
-    }
+  require('telescope.builtin').find_files {
+    find_command = { "rg", "--files", "--no-require-git", "-g", '!*migration*', '-g', '!*test*', '-g', '!*mock*' }
+  }
 end)
 
 local opt = vim.opt
@@ -27,12 +27,12 @@ opt.confirm = true                                      -- Confirm to save chang
 opt.cursorline = true                                   -- Enable highlighting of the current line
 opt.expandtab = true                                    -- Use spaces instead of tabs
 opt.fillchars = {
-    foldopen = "",
-    foldclose = "",
-    fold = " ",
-    foldsep = " ",
-    diff = "╱",
-    eob = " ",
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
 }
 opt.foldlevel = 99
 opt.laststatus = 3     -- global statusline
@@ -55,46 +55,47 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' 
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
 vim.lsp.config['luals'] = {
-    cmd = { 'lua-language-server' },
-    filetypes = { 'lua' },
-    root_markers = { '.luarc.json', '.luarc.jsonc' },
-    settings = {
-        Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            },
-            diagnostics = {
-                globals = {'vim'}
-            }
-        }
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
+  root_markers = { '.luarc.json', '.luarc.jsonc' },
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        globals = { 'vim' }
+      }
     }
+  }
 }
 
-vim.lsp.config['gopls'] = {
-    settings = {
-        gopls = {
-            buildFlags = { "-tags=integration" }
-        }
-    }
-}
+local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+    require('go.format').goimports()
+  end,
+  group = format_sync_grp,
+})
 
 local bufnr = vim.api.nvim_get_current_buf()
 vim.keymap.set(
-    {"n"},
-    "<leader>a",
-    function()
-        vim.cmd.RustLsp('codeAction') -- supports rust-analyzer's grouping
-        -- or vim.lsp.buf.codeAction() if you don't want grouping.
-    end,
-    { silent = true, buffer = bufnr }
+  { "n" },
+  "<leader>a",
+  function()
+    vim.cmd.RustLsp('codeAction') -- supports rust-analyzer's grouping
+    -- or vim.lsp.buf.codeAction() if you don't want grouping.
+  end,
+  { silent = true, buffer = bufnr }
 )
 vim.keymap.set(
-    "n",
-    "K", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-    function()
-        vim.cmd.RustLsp({ 'hover', 'actions' })
-    end,
-    { silent = true, buffer = bufnr }
+  "n",
+  "K", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+  function()
+    vim.cmd.RustLsp({ 'hover', 'actions' })
+  end,
+  { silent = true, buffer = bufnr }
 )
 
 vim.wo.foldmethod = 'expr'
@@ -110,21 +111,25 @@ vim.keymap.set({ "n" }, "<leader>F", vim.lsp.buf.format)
 vim.keymap.set({ "n" }, "<leader>of", ":e ~/orgfiles/<cr>")
 
 vim.keymap.set({ "n" }, "<leader>sf", function()
-    require('telescope.builtin').lsp_document_symbols({ symbols = 'function' })
+  require('telescope.builtin').lsp_document_symbols({ symbols = 'function' })
 end)
 
 vim.keymap.set({ "n" }, "<leader>ss", function()
-    require('telescope.builtin').lsp_document_symbols({})
+  require('telescope.builtin').lsp_document_symbols({})
 end)
 
 vim.keymap.set({ "n" }, "<C-j>", ":+5<cr>")
 vim.keymap.set({ "n" }, "<C-k>", ":-5<cr>")
 vim.keymap.set({ "n" }, "-", ":Oil<cr>")
 vim.keymap.set({ "n" }, "<leader>e", ":e ~/.config/nvim<cr>")
+vim.keymap.set({ "n" }, "<leader>lu", ":Lazy update<cr>")
 
 vim.lsp.enable('luals')
-vim.lsp.enable('gopls')
 vim.lsp.enable('phpactor')
 vim.lsp.enable('python-lsp-server')
+
+vim.lsp.inlay_hint.enable(false)
+
+require('go').setup()
 
 vim.cmd.colorscheme('catppuccin-mocha')
