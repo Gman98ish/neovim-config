@@ -127,6 +127,12 @@ vim.lsp.enable('luals')
 vim.lsp.enable('phpactor')
 vim.lsp.enable('python-lsp-server')
 
+vim.keymap.set({ "n" }, "<leader>tt", require("neotest").run.run)
+vim.keymap.set({ "n" }, "<leader>ts", ":Neotest summary<cr>")
+vim.keymap.set({ "n" }, "<leader>ta", function() require("neotest").run.run({ suite = true }) end)
+vim.keymap.set({ "n" }, "<leader>to", require("neotest").output.open)
+vim.keymap.set({ "n" }, "<leader>tO", function() require("neotest").output.open({enter = true}) end)
+
 vim.lsp.inlay_hint.enable(false)
 
 require('go').setup()
