@@ -103,7 +103,6 @@ vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 vim.keymap.set({ "n", "x", "o" }, "<space>", ts_repeat_move.repeat_last_move)
-vim.keymap.set({ "n", "x", "o" }, "<C-Space>", ts_repeat_move.repeat_last_move_opposite)
 
 vim.keymap.set({ "n" }, "grd", vim.lsp.buf.definition)
 vim.keymap.set({ "n" }, "<leader>F", vim.lsp.buf.format)
@@ -111,7 +110,7 @@ vim.keymap.set({ "n" }, "<leader>F", vim.lsp.buf.format)
 vim.keymap.set({ "n" }, "<leader>of", ":e ~/orgfiles/<cr>")
 
 vim.keymap.set({ "n" }, "<leader>sf", function()
-  require('telescope.builtin').lsp_document_symbols({ symbols = 'function' })
+  require('telescope.builtin').lsp_document_symbols({ symbols = {'function', 'method'} })
 end)
 
 vim.keymap.set({ "n" }, "<leader>ss", function()
@@ -119,7 +118,7 @@ vim.keymap.set({ "n" }, "<leader>ss", function()
 end)
 
 vim.keymap.set({ "n" }, "<C-j>", ":+5<cr>")
-vim.keymap.set({ "n" }, "<C-k>", ":-5<cr>")
+vim.keymap.set({ "n" }, "<S-j>", ":-5<cr>")
 vim.keymap.set({ "n" }, "-", ":Oil<cr>")
 vim.keymap.set({ "n" }, "<leader>e", ":e ~/.config/nvim<cr>")
 vim.keymap.set({ "n" }, "<leader>lu", ":Lazy update<cr>")
