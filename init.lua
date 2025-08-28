@@ -105,6 +105,7 @@ local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 vim.keymap.set({ "n", "x", "o" }, "<space>", ts_repeat_move.repeat_last_move)
 
 vim.keymap.set({ "n" }, "grd", vim.lsp.buf.definition)
+vim.keymap.set({ "n" }, "grn", vim.lsp.buf.rename)
 vim.keymap.set({ "n" }, "<leader>F", vim.lsp.buf.format)
 
 vim.keymap.set({ "n" }, "<leader>of", ":e ~/orgfiles/<cr>")
@@ -128,10 +129,14 @@ vim.lsp.enable('phpactor')
 vim.lsp.enable('python-lsp-server')
 
 vim.keymap.set({ "n" }, "<leader>tt", require("neotest").run.run)
+vim.keymap.set({ "n" }, "<leader>td", function () require("neotest").run.run({ strategy = "dap", suite = false }) end)
 vim.keymap.set({ "n" }, "<leader>ts", ":Neotest summary<cr>")
 vim.keymap.set({ "n" }, "<leader>ta", function() require("neotest").run.run({ suite = true }) end)
 vim.keymap.set({ "n" }, "<leader>to", require("neotest").output.open)
 vim.keymap.set({ "n" }, "<leader>tO", function() require("neotest").output.open({enter = true}) end)
+vim.keymap.set({ "n" }, "<leader>tp", function() require("neotest").output_panel.toggle() end)
+
+vim.keymap.set({ "n" }, "<leader>dd", function() require("dapui").toggle() end)
 
 vim.lsp.inlay_hint.enable(false)
 

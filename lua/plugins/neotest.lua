@@ -11,7 +11,9 @@ return {
     config = function()
       require("neotest").setup({
         adapters = {
-          require("neotest-golang")(),
+          require("neotest-golang")({
+            go_test_args = { "-tags=integration" },
+          }),
         }
       })
     end
