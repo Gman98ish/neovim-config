@@ -23,7 +23,6 @@ return {
     { -- optional blink completion source for require statements and module annotations
         "saghen/blink.cmp",
         opts = {
-            fuzzy = { implementation = "lua" },
             enabled = function() return not vim.tbl_contains({ "lua", "markdown" }, vim.bo.filetype) end,
             keymap = {
                 preset = 'default',
@@ -41,7 +40,10 @@ return {
                     },
                 },
             },
+            fuzzy = { implementation = "prefer_rust_with_warning" }
         },
+        opts_extend = { "sources.default" },
+        build = 'cargo build --release'
     },
     { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
 }

@@ -13,7 +13,8 @@ return {
 
             local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
             local gopls_cfg = require('go.lsp').config()
-            gopls_cfg.settings.gopls.buildFlags = {"-tags=integration,bdd"}
+            gopls_cfg.settings.gopls.buildFlags = {"-tags=integration,bdd,e2e"}
+            gopls_cfg.settings.warn_test_name_dupes = false
             vim.lsp.config.gopls = gopls_cfg
             vim.lsp.enable('gopls')
 

@@ -1,17 +1,18 @@
 require("config.lazy")
 require("oil").setup()
-require 'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true, -- enable syntax highlighting
-  }
-}
 vim.keymap.set("i", "jf", "<esc>")
 vim.keymap.set("n", "<Leader> ", "<cmd>noh<CR>")
--- vim.keymap.set("n", ";", ":") vim.keymap.set("n", "-", require("oil").open)
 
 vim.keymap.set("n", "<Leader>fp", function()
   require('telescope.builtin').find_files {
     find_command = { "rg", "--files", "--no-require-git", "-g", '!*migration*', '-g', '!*test*', '-g', '!*mock*' }
+  }
+end)
+
+vim.keymap.set("n", "<Leader>fP", function()
+  require('telescope.builtin').planets {
+    show_pluto = true,
+    show_moon = true,
   }
 end)
 
@@ -54,7 +55,7 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live gr
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
-vim.lsp.config['luals'] = {
+vim.lsp.config('luals', {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   root_markers = { '.luarc.json', '.luarc.jsonc' },
@@ -68,7 +69,7 @@ vim.lsp.config['luals'] = {
       }
     }
   }
-}
+})
 
 local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -89,20 +90,17 @@ vim.keymap.set(
   end,
   { silent = true, buffer = bufnr }
 )
-vim.keymap.set(
-  "n",
-  "K", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-  function()
-    vim.cmd.RustLsp({ 'hover', 'actions' })
-  end,
-  { silent = true, buffer = bufnr }
-)
+-- vim.keymap.set(
+--   "n",
+--   "K", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+--   function()
+--     vim.cmd.RustLsp({ 'hover', 'actions' })
+--   end,
+--   { silent = true, buffer = bufnr }
+-- )
 
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-
-local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
-vim.keymap.set({ "n", "x", "o" }, "<space>", ts_repeat_move.repeat_last_move)
 
 vim.keymap.set({ "n" }, "grd", vim.lsp.buf.definition)
 vim.keymap.set({ "n" }, "grn", vim.lsp.buf.rename)
@@ -138,7 +136,21 @@ vim.keymap.set({ "n" }, "<leader>tp", function() require("neotest").output_panel
 
 vim.keymap.set({ "n" }, "<leader>dd", function() require("dapui").toggle() end)
 
-vim.lsp.inlay_hint.enable(false)
+vim.keymap.set({ "n" }, "<leader>ss", ":terminal<cr>")
+vim.keymap.set({ "t" }, "jf", "<C-\\><C-n>")
+
+vim.keymap.set({ "n" }, "<leader>qq", ":ccl<cr>")
+vim.keymap.set({ "n" }, "<leader>qo", ":cope<cr>")
+
+vim.keymap.set({ "x", "o" }, "af", function()
+  require "nvim-treesitter-textobjects.select".select_textobject("@function.outer", "textobjects")
+end)
+vim.keymap.set({ "x", "o" }, "if", function()
+  require "nvim-treesitter-textobjects.select".select_textobject("@function.inner", "textobjects")
+end)
+vim.keymap.set({ "x", "o" }, "aa", function()
+  require "nvim-treesitter-textobjects.select".select_textobject("@parameter.outer", "textobjects")
+end)
 
 require('go').setup()
 

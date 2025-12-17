@@ -19,10 +19,11 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    version = false, -- last release is way too old and doesn't work on Windows
     build = ":TSUpdate",
+    version = false,
+    branch = "main",
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
+    -- lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
     keys = {
       { "<c-space>", desc = "Increment Selection" },
       { "<bs>", desc = "Decrement Selection", mode = "x" },
@@ -85,39 +86,29 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     event = "VeryLazy",
     enabled = true,
+    branch = "main",
     config = function ()
-        require("nvim-treesitter.configs").setup {
-            textobjects = {
-                select = {
-                    enable = true,
-                    lookahead = true,
-                    keymaps = {
-                        -- You can use the capture groups defined in textobjects.scm
-                        ["af"] = "@function.outer",
-                        ["aa"] = "@parameter.inner",
-                        ["if"] = "@function.inner",
-                        ["ac"] = "@class.outer",
-                        -- You can also use captures from other query groups like `locals.scm`
-                        ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-                    },
-                    selection_modes = {
-                        ['@parameter.outer'] = 'v', -- charwise
-                        ['@function.outer'] = 'V', -- linewise
-                        ['@class.outer'] = '<c-v>', -- blockwise
-                    },
-                },
-                move = {
-                    enable = true,
-                    goto_next_start = {
-                        ["]m"] = "@function.outer",
-                        ["]p"] = "@parameter.outer",
-                        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-                        ["]s"] = { query = "@local.scope", query_group = "locals", desc = "Next scope" },
-                    },
-                    goto_previous_start = {
-                        ["[m"] = "@function.outer",
-                    }
-                }
+        require("nvim-treesitter-textobjects").setup {
+              select = {
+                  enable = true,
+                  lookahead = true,
+                  selection_modes = {
+                      ['@parameter.outer'] = 'v', -- charwise
+                      ['@function.outer'] = 'V', -- linewise
+                      ['@class.outer'] = '<c-v>', -- blockwise
+                  },
+              },
+              move = {
+                  enable = true,
+                  goto_next_start = {
+                      ["]m"] = "@function.outer",
+                      ["]p"] = "@parameter.outer",
+                      ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+                      ["]s"] = { query = "@local.scope", query_group = "locals", desc = "Next scope" },
+                  },
+                  goto_previous_start = {
+                      ["[m"] = "@function.outer",
+                  }
             }
         }
     end
